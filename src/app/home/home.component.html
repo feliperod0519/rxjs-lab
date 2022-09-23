@@ -23,6 +23,12 @@
                 </mat-card-content>
             </mat-card>
         </mat-tab>
+        <mat-tab label="Beginner-Reactive Version">
+            <app-courses-card-list [courses]="beginnerCourses$ | async"></app-courses-card-list>
+        </mat-tab>
+        <mat-tab label="Advanced-Reactive Version">
+            <app-courses-card-list [courses]="advancedCourses$ | async"></app-courses-card-list>
+        </mat-tab>
     </mat-tab-group>
 </div>
 

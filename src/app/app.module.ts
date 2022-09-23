@@ -24,13 +24,17 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button'
 import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
+import { CourseDialogComponent } from './course-dialog/course-dialog.component';
+import { AboutComponent } from './about/about.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    CoursesCardListComponent
+    CoursesCardListComponent,
+    CourseDialogComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,

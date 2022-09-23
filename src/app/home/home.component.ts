@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map,shareReplay,tap } from 'rxjs/operators';
 import { MatTabsModule } from '@angular/material/tabs';
 import { noop } from 'rxjs';
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { Observable} from 'rxjs';
 
 import { environment } from '../../environments/environment';//'../environments/environment';
 import { course } from '../../_models/course';
@@ -22,10 +23,14 @@ export class HomeComponent implements OnInit {
   beginnerCourses: course[] = [];
   advancedCourses: course[] = [];
 
+  beginnerCourses$: Observable<course[]>;
+  advancedCourses$: Observable<course[]>;
+
   constructor(private http:HttpClient) { }
 
   ngOnInit(): void {
     this.getCourses()
+    this.getCourses_Reactive()
   }
 
   getCourses(){  
@@ -53,6 +58,22 @@ export class HomeComponent implements OnInit {
     //  console.log(this.beginnerCourses[i].description);
     //}
     
+  }
+
+  getCourses_Reactive(){
+    const httpHandle$ = this.http.get( environment.baseUrl + "courses").pipe(
+      tap(t=>console.log("HTTP Executed")),
+      map(r=>{
+                return r["payload"];
+             }),
+      shareReplay()
+      );
+      this.beginnerCourses$ = httpHandle$.pipe(
+        map(c=>c.filter(c=>c.category=="BEGINNER"))
+      );
+      this.advancedCourses$ = httpHandle$.pipe(
+        map(c=>c.filter(c=>c.category=="ADVANCED"))
+      );
   }
 
 }
